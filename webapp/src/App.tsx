@@ -1,10 +1,12 @@
 import Search from './components/Search';
 import { currentWeather } from './msw/mockData';
 import { X } from 'lucide-react';
+import { useWeatherStore } from './store';
 
 export default function App() {
-    const weatherData = currentWeather;
+    const store = useWeatherStore();
 
+    const weatherData = currentWeather;
     const citiesList = [currentWeather, currentWeather, currentWeather];
 
     return (
@@ -17,8 +19,9 @@ export default function App() {
                     </p>
                 </header>
                 <Search />
+                {/* todo move to a separate component */}
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center mb-4">
-                    <ul className="">
+                    <ul>
                         {citiesList.map((city, index) => (
                             <li
                                 key={index}
@@ -36,6 +39,7 @@ export default function App() {
                         ))}
                     </ul>
                 </section>
+                {/* todo move to a separate component */}
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center">
                     <div className="weather-location-row flex justify-center">
                         <h2 className="weather-location text-white text-xl font-semibold">{weatherData.name}</h2>
