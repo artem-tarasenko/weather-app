@@ -26,6 +26,8 @@ export default function Search({ onSelect }: SearchProps) {
             const weather = weatherQuery.data;
             const city = { ...cityInfo, weather };
             onSelect(city);
+            //todo do not reset in case of a failed api requests
+            setSearchValue('');
         }
     }, [cityQuery.data, weatherQuery.data]);
 
