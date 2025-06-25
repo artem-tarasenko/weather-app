@@ -1,14 +1,28 @@
 import { useState } from 'react';
+import type { ICityInfo, ICurrentWeather } from '../schemas';
+import type { Coords } from '../types';
 
 type SearchProps = {
-    onSelect: (city: string) => void;
+    onSelect: (city: ICityInfo) => void;
 };
 
 export default function Search({ onSelect }: SearchProps) {
     const [searchValue, setSearchValue] = useState<string>('');
 
-    function handleSubmitSearch() {
-        onSelect(searchValue);
+    async function getCityInfo(cityName: string): Promise<ICityInfo> {
+        return {} as ICityInfo;
+    }
+
+    async function getWeatherInfo(coords: Coords): Promise<ICurrentWeather> {
+        return {} as ICurrentWeather;
+    }
+
+    async function handleSubmitSearch() {
+        const cityInfo: ICityInfo = await getCityInfo(searchValue);
+        const coords: Coords = { lan: cityInfo.lat, lon: cityInfo.lon };
+        const cityWeatherInfo: ICurrentWeather = await getWeatherInfo(coords);
+
+        onSelect({ ...cityInfo, weather: cityWeatherInfo });
     }
 
     return (

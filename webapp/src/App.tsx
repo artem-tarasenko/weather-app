@@ -17,25 +17,25 @@ export default function App() {
                         Get real-time weather information for any city
                     </p>
                 </header>
-                <Search />
+                <Search onSelect={addCity} />
                 {/* todo move to a separate component */}
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center mb-4">
                     <ul>
                         {cities.length > 0 ? (
                             cities.map((city, index) => (
-                            <li
-                                key={index}
-                                className="bg-white/20 hover:bg-white/30 duration-100 ease-in-out my-2 pl-4 pr-2 py-1 rounded flex cursor-pointer"
-                                onClick={() => null}
-                            >
-                                <p className="justify-between items-center flex grow mr-2">
+                                <li
+                                    key={index}
+                                    className="bg-white/20 hover:bg-white/30 duration-100 ease-in-out my-2 pl-4 pr-2 py-1 rounded flex cursor-pointer"
+                                    onClick={() => null}
+                                >
+                                    <p className="justify-between items-center flex grow mr-2">
                                         <span>{city.formatted}</span>
                                         <span>{city.weather.main.temp}&deg; C</span>
-                                </p>
-                                <button className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded">
-                                    <X size={12} />
-                                </button>
-                            </li>
+                                    </p>
+                                    <button className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded">
+                                        <X size={12} />
+                                    </button>
+                                </li>
                             ))
                         ) : (
                             <p>No saved cities...</p>
