@@ -31,7 +31,7 @@ export const currentWeatherSchema = z
             deg: z.number(),
             gust: z.number(),
         }),
-        rain: z.record(z.string(), z.number()),
+        rain: z.record(z.string(), z.number()).optional(),
         clouds: z.object({
             all: z.number(),
         }),

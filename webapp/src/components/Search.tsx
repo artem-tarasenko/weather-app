@@ -1,9 +1,16 @@
 type SearchProps = {};
 
 export default function Search(props: SearchProps) {
+    const {} = props;
+
     return (
-        <div aria-labelledby="weather-search-label" className="weather-search-container w-full max-w-xs mb-8 relative">
-            <form className="weather-search flex" onSubmit={() => null} role="search" aria-label="Search for a city">
+        <div aria-labelledby="weather-search-label" className="weather-search-container w-full mb-8 relative">
+            <form
+                className="weather-search flex w-full justify-center"
+                onSubmit={() => null}
+                role="search"
+                aria-label="Search for a city"
+            >
                 <input
                     id="weather-search-input"
                     className="weather-search-input border border-gray-300 rounded-lg px-4 py-2 focus:outline-none text-zinc-100"
