@@ -5,6 +5,8 @@ import { X } from 'lucide-react';
 export default function App() {
     const weatherData = currentWeather;
 
+    const citiesList = [currentWeather, currentWeather, currentWeather];
+
     return (
         <main className="weather-app min-h-screen flex flex-col items-center justify-center bg-indigo-400 p-4 w-full">
             <div className="container w-full max-w-xs sm:max-w-xl">
@@ -15,6 +17,25 @@ export default function App() {
                     </p>
                 </header>
                 <Search />
+                <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center mb-4">
+                    <ul className="">
+                        {citiesList.map((city, index) => (
+                            <li
+                                key={index}
+                                className="bg-white/20 hover:bg-white/30 duration-100 ease-in-out my-2 pl-4 pr-2 py-1 rounded flex cursor-pointer"
+                                onClick={() => null}
+                            >
+                                <p className="justify-between items-center flex grow mr-2">
+                                    <span>{city.name}</span>
+                                    <span>{city.main.temp}&deg; C</span>
+                                </p>
+                                <button className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded">
+                                    <X size={12} />
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center">
                     <div className="weather-location-row flex justify-center">
                         <h2 className="weather-location text-white text-xl font-semibold">{weatherData.name}</h2>
