@@ -44,7 +44,7 @@ export const cityInfoResponseSchema = z
         country_code: z.string().optional(),
         state: z.string().optional(),
         county: z.string().optional(),
-        city: z.string(),
+        city: z.string().optional(),
         lon: z.number(),
         lat: z.number(),
         state_code: z.string().optional(),

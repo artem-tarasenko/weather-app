@@ -1,5 +1,5 @@
 import Search from './components/Search';
-import { X } from 'lucide-react';
+import { X, Pin } from 'lucide-react';
 import { useWeatherStore } from './store';
 import { useState } from 'react';
 import type { ICityInfo } from './schemas';
@@ -7,10 +7,19 @@ import type { ICityInfo } from './schemas';
 export default function App() {
     const [currentCity, setCurrentCity] = useState<null | ICityInfo>(null);
 
-    const { addCity, cities } = useWeatherStore();
+    const { addCity, removeCity, cities } = useWeatherStore();
 
     function handleSearchResults(cityInfo: ICityInfo) {
         setCurrentCity(cityInfo);
+    }
+
+    function saveCurrentCity() {
+        if (!currentCity) return;
+        addCity(currentCity);
+    }
+
+    function removeCityFromList(cityId: string) {
+        removeCity(cityId);
     }
 
     return (
@@ -37,7 +46,10 @@ export default function App() {
                                         <span>{city.formatted}</span>
                                         <span>{city.weather.main.temp}&deg; C</span>
                                     </p>
-                                    <button className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded">
+                                    <button
+                                        className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded"
+                                        onClick={() => removeCityFromList(city.place_id)}
+                                    >
                                         <X size={12} />
                                     </button>
                                 </li>
@@ -48,7 +60,7 @@ export default function App() {
                     </ul>
                 </section>
                 {/* todo move to a separate component */}
-                <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center">
+                <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center relative">
                     {currentCity ? (
                         <>
                             <div className="weather-location-row flex justify-center">
@@ -81,6 +93,15 @@ export default function App() {
                                 <p className="weather-wind text-zinc-200 text-base" aria-label="Wind">
                                     Wind: {currentCity.weather.wind.speed} km/h
                                 </p>
+                            </div>
+                            <div className="weather-save-button absolute z-50 right-5 top-5">
+                                <button
+                                    className=" p-2 bg-blue-600/20 hover:bg-blue-500 disabled:hover:bg-blue-600/20 duration-100 ease-in-out rounded-xl text-sm"
+                                    onClick={saveCurrentCity}
+                                    disabled={cities.some((city) => city.place_id === currentCity?.place_id)}
+                                >
+                                    <Pin size={16} className="transform rotate-15" />
+                                </button>
                             </div>
                         </>
                     ) : (
