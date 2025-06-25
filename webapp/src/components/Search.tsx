@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import type { ICityInfo } from '../schemas';
 import { useCityQuery } from '../queries/getCityInfo';
 import { useWeatherQuery } from '../queries/getWeatherInfo';
+import SearchError from './SearchError';
 
 type SearchProps = {
     onSelect: (city: ICityInfo) => void;
@@ -9,27 +10,29 @@ type SearchProps = {
 
 export default function Search({ onSelect }: SearchProps) {
     const [searchValue, setSearchValue] = useState<string>('');
-    const [city, setCity] = useState('');
+    const [city, setCity] = useState<string>('');
     // react queries, do accept null initially and will get the data once the local city has been set (search result)
     const cityQuery = useCityQuery(city);
     const weatherQuery = useWeatherQuery(cityQuery?.data ? { lat: cityQuery.data.lat, lon: cityQuery.data.lon } : null);
     // search button handler, set local state to trigger effect
-    async function handleSubmitSearch(e: FormEvent<HTMLFormElement>) {
+    async function handleSubmitSearch(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setCity(searchValue);
     }
 
     // effect to set parent (glogal) state when all the data is available
     useEffect(() => {
+        // guardian, does nothing if any query has error
+        if (cityQuery.isError || weatherQuery.isError) return;
+        // if all data is available, make a state compatiable object and store it
         if (cityQuery.data && weatherQuery.data) {
             const cityInfo = cityQuery.data;
             const weather = weatherQuery.data;
             const city = { ...cityInfo, weather };
             onSelect(city);
-            //todo do not reset in case of a failed api requests
             setSearchValue('');
         }
-    }, [cityQuery.data, weatherQuery.data]);
+    }, [cityQuery, weatherQuery]);
 
     return (
         <div aria-labelledby="weather-search-label" className="weather-search-container w-full mb-8 relative">
@@ -55,6 +58,7 @@ export default function Search({ onSelect }: SearchProps) {
                     Search
                 </button>
             </form>
+            <SearchError hasError={cityQuery.isError || weatherQuery.isError} onReset={() => setCity('')} />
         </div>
     );
 }

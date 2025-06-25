@@ -96,7 +96,7 @@ export default function App() {
                             </div>
                             <div className="weather-save-button absolute z-50 right-5 top-5">
                                 <button
-                                    className=" p-2 bg-blue-600/20 hover:bg-blue-500 disabled:hover:bg-blue-600/20 duration-100 ease-in-out rounded-xl text-sm"
+                                    className="p-2 bg-blue-600/20 hover:bg-blue-500 disabled:hover:bg-blue-600/20 duration-100 ease-in-out rounded-xl text-sm"
                                     onClick={saveCurrentCity}
                                     disabled={cities.some((city) => city.place_id === currentCity?.place_id)}
                                 >

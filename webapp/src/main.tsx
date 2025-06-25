@@ -6,7 +6,14 @@ import App from './App.tsx';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 // Create a React Query client instance
-const queryClient = new QueryClient();
+// since async code runs fast, there is no point adding a loader, and so are retries
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false,
+        },
+    },
+});
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
