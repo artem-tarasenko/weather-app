@@ -51,3 +51,56 @@ export const currentWeatherSchema = z
     .describe('currentWeather');
 
 export type ICurrentWeather = z.infer<typeof currentWeatherSchema>;
+
+export const cityInfoSchema = z
+    .object({
+        datasource: z.object({
+            sourcename: z.string(),
+            attribution: z.string(),
+            license: z.string(),
+            url: z.string(),
+        }),
+        country: z.string(),
+        country_code: z.string(),
+        state: z.string(),
+        county: z.string(),
+        city: z.string(),
+        iso3166_2: z.string(),
+        lon: z.number(),
+        lat: z.number(),
+        state_code: z.string(),
+        result_type: z.string(),
+        formatted: z.string(),
+        address_line1: z.string(),
+        address_line2: z.string(),
+        category: z.string(),
+        timezone: z.object({
+            name: z.string(),
+            offset_STD: z.string(),
+            offset_STD_seconds: z.number(),
+            offset_DST: z.string(),
+            offset_DST_seconds: z.number(),
+            abbreviation_STD: z.string(),
+            abbreviation_DST: z.string(),
+        }),
+        plus_code: z.string(),
+        plus_code_short: z.string(),
+        rank: z.object({
+            importance: z.number(),
+            popularity: z.number(),
+            confidence: z.number(),
+            confidence_city_level: z.number(),
+            match_type: z.string(),
+        }),
+        place_id: z.string(),
+        bbox: z.object({
+            lon1: z.number(),
+            lat1: z.number(),
+            lon2: z.number(),
+            lat2: z.number(),
+        }),
+        weather: currentWeatherSchema,
+    })
+    .describe('cityInfo');
+
+export type ICityInfo = z.infer<typeof cityInfoSchema>;

@@ -1,4 +1,4 @@
-import type { ICurrentWeather } from '../schemas';
+import type { ICityInfo, ICurrentWeather } from '../schemas';
 
 export const currentWeather: ICurrentWeather = {
     coord: {
@@ -45,4 +45,53 @@ export const currentWeather: ICurrentWeather = {
     id: 3165523,
     name: 'Province of Turin',
     cod: 200,
+};
+
+export const cityInfo: ICityInfo = {
+    datasource: {
+        sourcename: 'openstreetmap',
+        attribution: '© OpenStreetMap contributors',
+        license: 'Open Database License',
+        url: 'https://www.openstreetmap.org/copyright',
+    },
+    country: 'Canada',
+    country_code: 'ca',
+    state: 'British Columbia',
+    county: 'Capital Regional District',
+    city: 'Victoria',
+    iso3166_2: 'CA-BC',
+    lon: -123.364953,
+    lat: 48.4283182,
+    state_code: 'BC',
+    result_type: 'city',
+    formatted: 'Victoria, BC, Canada',
+    address_line1: 'Victoria, BC',
+    address_line2: 'Canada',
+    category: 'administrative',
+    timezone: {
+        name: 'America/Vancouver',
+        offset_STD: '-08:00',
+        offset_STD_seconds: -28800,
+        offset_DST: '-07:00',
+        offset_DST_seconds: -25200,
+        abbreviation_STD: 'PST',
+        abbreviation_DST: 'PDT',
+    },
+    plus_code: '84WRCJHP+82',
+    plus_code_short: 'HP+82 Victoria, Capital Regional District, Canada',
+    rank: {
+        importance: 0.6275050643323685,
+        popularity: 7.154095137869881,
+        confidence: 1,
+        confidence_city_level: 1,
+        match_type: 'full_match',
+    },
+    place_id: '51efe4d3635bd75ec0590ba47a21d3364840f00101f90106e4210000000000c00208',
+    bbox: {
+        lon1: -123.398075,
+        lat1: 48.4028294,
+        lon2: -123.3224223,
+        lat2: 48.4504983,
+    },
+    weather: currentWeather,
 };
