@@ -1,4 +1,4 @@
-FROM node:22.9.0
+FROM node:22.12.0
 # Newer versions may be available at https://nodejs.org/en/
 
 # node may come with an older version of npm. Ensure we have a specific npm.

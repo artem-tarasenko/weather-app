@@ -1,11 +1,23 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     server: {
         open: true,
-        port: 5173,
+        port: 5911,
+        host: '127.0.0.1',
+        watch: {
+            usePolling: true,
+        },
+        allowedHosts: ['localhost'],
+    },
+    build: {
+        target: 'safari14',
+        minify: false,
+        cssCodeSplit: false,
+        sourcemap: true,
     },
 });
