@@ -1,4 +1,4 @@
 export type Coords = {
-    lan: number;
+    lat: number;
     lon: number;
 };
