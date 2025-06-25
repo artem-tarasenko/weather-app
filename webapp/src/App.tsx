@@ -1,12 +1,17 @@
 import Search from './components/Search';
-import { currentWeather } from './msw/mockData';
 import { X } from 'lucide-react';
 import { useWeatherStore } from './store';
+import { useState } from 'react';
+import type { ICityInfo } from './schemas';
 
 export default function App() {
+    const [currentCity, setCurrentCity] = useState<null | ICityInfo>(null);
+
     const { addCity, cities } = useWeatherStore();
 
-    const weatherData = currentWeather;
+    function handleSearchResults(cityInfo: ICityInfo) {
+        setCurrentCity(cityInfo);
+    }
 
     return (
         <main className="weather-app min-h-screen flex flex-col items-center justify-center bg-indigo-400 p-4 w-full">
@@ -17,7 +22,7 @@ export default function App() {
                         Get real-time weather information for any city
                     </p>
                 </header>
-                <Search onSelect={addCity} />
+                <Search onSelect={handleSearchResults} />
                 {/* todo move to a separate component */}
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center mb-4">
                     <ul>
@@ -44,35 +49,43 @@ export default function App() {
                 </section>
                 {/* todo move to a separate component */}
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center">
-                    <div className="weather-location-row flex justify-center">
-                        <h2 className="weather-location text-white text-xl font-semibold">{weatherData.name}</h2>
-                    </div>
-                    <div className="weather-condition-row flex flex-col items-center mb-2">
-                        <img
-                            src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                            alt={weatherData.weather[0].main}
-                            className="weather-icon w-16 h-16 mb-1"
-                        />
-                        <p className="weather-condition text-zinc-200 text-lg" aria-label="Condition">
-                            {weatherData.weather[0].main}
-                        </p>
-                    </div>
-                    <div className="weather-temp-row flex flex-col items-center mb-2">
-                        <p className="weather-temp text-zinc-200 text-4xl font-bold" aria-label="Temperature">
-                            {weatherData.main.temp}&deg; C
-                        </p>
-                        <p className="weather-feelslike text-zinc-200 text-base" aria-label="Feels like">
-                            Feels like: {weatherData.main.feels_like}&deg; C
-                        </p>
-                    </div>
-                    <div className="weather-humidity-row flex flex-wrap justify-center mt-4 w-full max-w-[964px] mx-auto gap-4">
-                        <p className="weather-humidity text-zinc-200 text-base" aria-label="Humidity">
-                            Humidity: {weatherData.main.humidity}%
-                        </p>
-                        <p className="weather-wind text-zinc-200 text-base" aria-label="Wind">
-                            Wind: {weatherData.wind.speed} km/h
-                        </p>
-                    </div>
+                    {currentCity ? (
+                        <>
+                            <div className="weather-location-row flex justify-center">
+                                <h2 className="weather-location text-white text-xl font-semibold">
+                                    {currentCity.weather.name}
+                                </h2>
+                            </div>
+                            <div className="weather-condition-row flex flex-col items-center mb-2">
+                                <img
+                                    src={`https://openweathermap.org/img/wn/${currentCity.weather.weather[0].icon}@2x.png`}
+                                    alt={currentCity.weather.weather[0].main}
+                                    className="weather-icon w-16 h-16 mb-1"
+                                />
+                                <p className="weather-condition text-zinc-200 text-lg" aria-label="Condition">
+                                    {currentCity.weather.weather[0].main}
+                                </p>
+                            </div>
+                            <div className="weather-temp-row flex flex-col items-center mb-2">
+                                <p className="weather-temp text-zinc-200 text-4xl font-bold" aria-label="Temperature">
+                                    {currentCity.weather.main.temp}&deg; C
+                                </p>
+                                <p className="weather-feelslike text-zinc-200 text-base" aria-label="Feels like">
+                                    Feels like: {currentCity.weather.main.feels_like}&deg; C
+                                </p>
+                            </div>
+                            <div className="weather-humidity-row flex flex-wrap justify-center mt-4 w-full max-w-[964px] mx-auto gap-4">
+                                <p className="weather-humidity text-zinc-200 text-base" aria-label="Humidity">
+                                    Humidity: {currentCity.weather.main.humidity}%
+                                </p>
+                                <p className="weather-wind text-zinc-200 text-base" aria-label="Wind">
+                                    Wind: {currentCity.weather.wind.speed} km/h
+                                </p>
+                            </div>
+                        </>
+                    ) : (
+                        <p className="italic my-6">Please search a city of select one from saved list...</p>
+                    )}
                 </section>
             </div>
         </main>

@@ -93,20 +93,20 @@ export const cityInfoResponseSchema = z
         plus_code_short: z.string().optional(),
         rank: z
             .object({
-                importance: z.number(),
-                popularity: z.number(),
-                confidence: z.number(),
-                confidence_city_level: z.number(),
-                match_type: z.string(),
+                importance: z.number().optional(),
+                popularity: z.number().optional(),
+                confidence: z.number().optional(),
+                confidence_city_level: z.number().optional(),
+                match_type: z.string().optional(),
             })
             .optional(),
         place_id: z.string(),
         bbox: z
             .object({
-                lon1: z.number(),
-                lat1: z.number(),
-                lon2: z.number(),
-                lat2: z.number(),
+                lon1: z.number().optional(),
+                lat1: z.number().optional(),
+                lon2: z.number().optional(),
+                lat2: z.number().optional(),
             })
             .optional(),
     })
