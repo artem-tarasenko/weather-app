@@ -1,0 +1,19 @@
+name: 'personal'
+services:
+   weather-tarasenko:
+      image: weather-tarasenko:0.1
+      build: .
+      container_name: weather-tarasenko-dev
+      hostname: weather-tarasenko.local
+      working_dir: /work
+      ports:
+        - "5173:5173"
+      volumes:
+         - ..:/work
+      environment:
+         - ENVIRONMENT=local
+      networks:
+         - personal
+
+networks:
+   personal:
