@@ -4,10 +4,9 @@ import { X } from 'lucide-react';
 import { useWeatherStore } from './store';
 
 export default function App() {
-    const store = useWeatherStore();
+    const { addCity, cities } = useWeatherStore();
 
     const weatherData = currentWeather;
-    const citiesList = [currentWeather, currentWeather, currentWeather];
 
     return (
         <main className="weather-app min-h-screen flex flex-col items-center justify-center bg-indigo-400 p-4 w-full">
@@ -22,21 +21,25 @@ export default function App() {
                 {/* todo move to a separate component */}
                 <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center mb-4">
                     <ul>
-                        {citiesList.map((city, index) => (
+                        {cities.length > 0 ? (
+                            cities.map((city, index) => (
                             <li
                                 key={index}
                                 className="bg-white/20 hover:bg-white/30 duration-100 ease-in-out my-2 pl-4 pr-2 py-1 rounded flex cursor-pointer"
                                 onClick={() => null}
                             >
                                 <p className="justify-between items-center flex grow mr-2">
-                                    <span>{city.name}</span>
-                                    <span>{city.main.temp}&deg; C</span>
+                                        <span>{city.formatted}</span>
+                                        <span>{city.weather.main.temp}&deg; C</span>
                                 </p>
                                 <button className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded">
                                     <X size={12} />
                                 </button>
                             </li>
-                        ))}
+                            ))
+                        ) : (
+                            <p>No saved cities...</p>
+                        )}
                     </ul>
                 </section>
                 {/* todo move to a separate component */}
