@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import type { ICityInfo, ICurrentWeather } from '../schemas';
-import type { Coords } from '../types';
+import { useEffect, useState, type FormEvent } from 'react';
+import type { ICityInfo } from '../schemas';
+import { useCityQuery } from '../queries/getCityInfo';
+import { useWeatherQuery } from '../queries/getWeatherInfo';
 
 type SearchProps = {
     onSelect: (city: ICityInfo) => void;
@@ -8,22 +9,25 @@ type SearchProps = {
 
 export default function Search({ onSelect }: SearchProps) {
     const [searchValue, setSearchValue] = useState<string>('');
-
-    async function getCityInfo(cityName: string): Promise<ICityInfo> {
-        return {} as ICityInfo;
+    const [city, setCity] = useState('');
+    // react queries, do accept null initially and will get the data once the local city has been set (search result)
+    const cityQuery = useCityQuery(city);
+    const weatherQuery = useWeatherQuery(cityQuery?.data ? { lat: cityQuery.data.lat, lon: cityQuery.data.lon } : null);
+    // search button handler, set local state to trigger effect
+    async function handleSubmitSearch(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setCity(searchValue);
     }
 
-    async function getWeatherInfo(coords: Coords): Promise<ICurrentWeather> {
-        return {} as ICurrentWeather;
-    }
-
-    async function handleSubmitSearch() {
-        const cityInfo: ICityInfo = await getCityInfo(searchValue);
-        const coords: Coords = { lan: cityInfo.lat, lon: cityInfo.lon };
-        const cityWeatherInfo: ICurrentWeather = await getWeatherInfo(coords);
-
-        onSelect({ ...cityInfo, weather: cityWeatherInfo });
-    }
+    // effect to set parent (glogal) state when all the data is available
+    useEffect(() => {
+        if (cityQuery.data && weatherQuery.data) {
+            const cityInfo = cityQuery.data;
+            const weather = weatherQuery.data;
+            const city = { ...cityInfo, weather };
+            onSelect(city);
+        }
+    }, [cityQuery.data, weatherQuery.data]);
 
     return (
         <div aria-labelledby="weather-search-label" className="weather-search-container w-full mb-8 relative">
