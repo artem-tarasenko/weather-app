@@ -26,6 +26,11 @@ Note: if you face any issues with ports allocation you need to change used port 
 ### Connection to the container
 
 Normally, if your code editor has extensions for a remote development, if will show the prompt to re-open this repo in the container.
+Editor reloads and starts building a container and setting things up, when ready open a console in the editor and install packages
+
+`cd webapp && npm install`
+
+Then usual `npm run dev`
 
 ## Source control branching model
 
