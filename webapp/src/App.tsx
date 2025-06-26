@@ -3,11 +3,18 @@ import { X, Pin } from 'lucide-react';
 import { useWeatherStore } from './store';
 import { useState } from 'react';
 import type { ICityInfo } from './schemas';
+import { isWideScreen } from './utils';
 
 export default function App() {
     const [currentCity, setCurrentCity] = useState<null | ICityInfo>(null);
 
     const { addCity, removeCity, cities } = useWeatherStore();
+
+    function getFormattedCityName(cityName: string) {
+        const isNameLengthy = cityName.length > 28;
+        const shouldTrim = !isWideScreen() && isNameLengthy;
+        return shouldTrim ? `${cityName.slice(0, 22)}...` : cityName;
+    }
 
     function handleSearchResults(cityInfo: ICityInfo) {
         setCurrentCity(cityInfo);
@@ -20,6 +27,10 @@ export default function App() {
 
     function removeCityFromList(cityId: string) {
         removeCity(cityId);
+    }
+
+    function handleClickSavedCity(city: ICityInfo) {
+        setCurrentCity(city);
     }
 
     return (
@@ -39,15 +50,15 @@ export default function App() {
                             cities.map((city, index) => (
                                 <li
                                     key={index}
-                                    className="bg-white/20 hover:bg-white/30 duration-100 ease-in-out my-2 pl-4 pr-2 py-1 rounded flex cursor-pointer"
-                                    onClick={() => null}
+                                    className="bg-white/20 hover:bg-white/30 duration-100 ease-in-out my-2 pl-4 pr-2 py-1 rounded flex items-center cursor-pointer"
+                                    onClick={() => handleClickSavedCity(city)}
                                 >
-                                    <p className="justify-between items-center flex grow mr-2">
-                                        <span>{city.formatted}</span>
-                                        <span>{city.weather.main.temp}&deg; C</span>
+                                    <p className="justify-between items-center flex grow mr-2 ">
+                                        <span>{getFormattedCityName(city.formatted)}</span>
+                                        <span className="hidden sm:block ">{city.weather.main.temp}&deg; C</span>
                                     </p>
                                     <button
-                                        className="py-1 px-2 ml-2 text-sm bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded"
+                                        className="py-1 px-2 ml-2 text-sm h-6 bg-red-400 hover:bg-red-500 ease-in-out duration-200 rounded"
                                         onClick={() => removeCityFromList(city.place_id)}
                                     >
                                         <X size={12} />

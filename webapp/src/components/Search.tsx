@@ -54,7 +54,7 @@ export default function Search({ onSelect }: SearchProps) {
         }
     }, [cityQuery.data, weatherQuery.data, cityQuery.isError, weatherQuery.isError]);
 
-    // effect to remove a validation tooltip
+    // effect to remove a validation tooltip after a timeout
     useEffect(() => {
         if (!showTooltip) return;
         const timeout = setTimeout(() => {
