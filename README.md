@@ -30,6 +30,8 @@ Editor reloads and starts building a container and setting things up, when ready
 
 `cd webapp && npm install`
 
+Add an `env` file (or .env.local) and add values to what you can find in the `env.example`, basically URLs and Keys for 2 services geoapify.com and openweathermap.org
+
 Then usual `npm run dev`
 
 ## Source control branching model
