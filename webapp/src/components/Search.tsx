@@ -194,6 +194,7 @@ export default function Search({ onSelect }: SearchProps) {
                         className="weather-search-input border border-gray-300 rounded-lg px-4 py-2 focus:outline-none text-zinc-100 w-full"
                         type="text"
                         placeholder="Search for a city..."
+                        autoComplete="off"
                         value={searchValue}
                         onChange={handleSearchInput}
                         onFocus={handleInputFocus}
