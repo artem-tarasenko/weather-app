@@ -63,7 +63,21 @@ export default function Search({ onSelect }: SearchProps) {
             setIsLoading(false);
             setCity('');
         }
-    }, [cityQuery.data, weatherQuery.data, cityQuery.isError, weatherQuery.isError]);
+        //reset states if the city request was successful but no search results
+        if (cityQuery.isSuccess && !cityQuery.data && searchValue.length > 2) {
+            showSearchMessage('Cannot find this city');
+            setSearchValue('');
+            setIsLoading(false);
+            setCity('');
+        }
+    }, [
+        cityQuery.data,
+        weatherQuery.data,
+        cityQuery.isSuccess,
+        cityQuery.isError,
+        weatherQuery.isSuccess,
+        weatherQuery.isError,
+    ]);
 
     // effect to remove a validation tooltip after a timeout
     useEffect(() => {
