@@ -56,7 +56,8 @@ export default function Search({ onSelect }: SearchProps) {
             setCity('');
         }
         //reset states if the city request was successful but no search results
-        if (cityQuery.isSuccess && !cityQuery.data) {
+        if (cityQuery.isSuccess && !cityQuery.data && searchValue.length > 0) {
+            console.log('cityQuery.isSuccess', cityQuery.isSuccess);
             showSearchMessage('Cannot find this city');
             setSearchValue('');
             setIsLoading(false);
