@@ -4,6 +4,7 @@ import { useCityQuery } from '../queries/getCityInfo';
 import { useWeatherQuery } from '../queries/getWeatherInfo';
 import SearchError from './SearchError';
 import Spinner from './Spinner';
+import { sanitizeString } from '../utils';
 
 type SearchProps = {
     onSelect: (city: ICityInfo) => void;
@@ -22,15 +23,8 @@ export default function Search({ onSelect }: SearchProps) {
     // search button handler, set local state to trigger effect
     async function handleSubmitSearch(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-
         // Sanitize the input, mostly cut the emojis, search API consumes numbers and other chars without issue, it is part of a query
-        // but let's still not test emojis
-        const sanitizedValue = searchValue
-            .trim()
-            .replace(
-                /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu,
-                '',
-            );
+        const sanitizedValue = sanitizeString(searchValue);
         // Validate input length for a maximum value
         if (sanitizedValue.length > 50) return showSearchMessage('City name is too long, please use a shorter name');
         // Validate input length for a minimum value
@@ -43,9 +37,7 @@ export default function Search({ onSelect }: SearchProps) {
 
     // function to set a content of a validation search tooltip and showing it
     function showSearchMessage(msg: string) {
-        if (msg) {
-            setTooltopMessage(msg);
-        }
+        setTooltopMessage(msg);
         setShowTooltip(true);
     }
 
@@ -64,7 +56,7 @@ export default function Search({ onSelect }: SearchProps) {
             setCity('');
         }
         //reset states if the city request was successful but no search results
-        if (cityQuery.isSuccess && !cityQuery.data && searchValue.length > 2) {
+        if (cityQuery.isSuccess && !cityQuery.data) {
             showSearchMessage('Cannot find this city');
             setSearchValue('');
             setIsLoading(false);
@@ -72,11 +64,12 @@ export default function Search({ onSelect }: SearchProps) {
         }
     }, [
         cityQuery.data,
-        weatherQuery.data,
         cityQuery.isSuccess,
         cityQuery.isError,
+        weatherQuery.data,
         weatherQuery.isSuccess,
         weatherQuery.isError,
+        onSelect,
     ]);
 
     // effect to remove a validation tooltip after a timeout

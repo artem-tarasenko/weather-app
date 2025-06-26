@@ -9,8 +9,9 @@ type CitiesListProps = {
 };
 
 export default function CitiesList({ cities, onRemoveCity, onClickCity }: CitiesListProps) {
+    //trim long place name if screen width is not permitting and the name is long
     function getFormattedCityName(cityName: string) {
-        const isNameLengthy = cityName.length > 28;
+        const isNameLengthy = cityName.length > 24;
         const shouldTrim = !isWideScreen() && isNameLengthy;
         return shouldTrim ? `${cityName.slice(0, 22)}...` : cityName;
     }
