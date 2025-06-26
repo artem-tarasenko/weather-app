@@ -1,4 +1,4 @@
-import { Pin } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import type { ICityInfo } from '../schemas';
 
 type WeatherInfoProps = {
@@ -49,7 +49,7 @@ export default function WeatherInfo({ currentCity, onSaveCity, isCitySaved }: We
                             onClick={onSaveCity}
                             disabled={isCitySaved}
                         >
-                            <Pin size={16} className="transform rotate-15" />
+                            <Plus size={16} className="transform bold" />
                         </button>
                     </div>
                 </>
