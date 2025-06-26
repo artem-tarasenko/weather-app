@@ -12,8 +12,17 @@ export default function WeatherInfo({ currentCity, onSaveCity, isCitySaved }: We
         <section className="weather-main-card flex justify-center flex-col bg-white/20 rounded shadow p-6 w-full text-center relative">
             {currentCity ? (
                 <>
-                    <div className="weather-location-row flex justify-center">
-                        <h2 className="weather-location text-white text-xl font-semibold">{currentCity.formatted}</h2>
+                    <div className="weather-location-row flex justify-center items-center">
+                        <h2 className="weather-location text-white sm:text-xl font-semibold grow">
+                            {currentCity.formatted}
+                        </h2>
+                        <button
+                            className="p-1 ml-2 bg-green-600 hover:bg-green-500/70 disabled:bg-green-600/20 duration-100 ease-in-out rounded w-6 h-6 text-sm font-bold"
+                            onClick={onSaveCity}
+                            disabled={isCitySaved}
+                        >
+                            <Plus size={16} className="font-bold" />
+                        </button>
                     </div>
                     <div className="weather-condition-row flex flex-col items-center mb-2">
                         <img
@@ -40,15 +49,6 @@ export default function WeatherInfo({ currentCity, onSaveCity, isCitySaved }: We
                         <p className="weather-wind text-zinc-200 text-base" aria-label="Wind">
                             Wind: {currentCity.weather.wind.speed} km/h
                         </p>
-                    </div>
-                    <div className="weather-save-button absolute z-50 right-5 top-5">
-                        <button
-                            className="p-2 bg-blue-600/20 hover:bg-blue-500 disabled:hover:bg-blue-600/20 duration-100 ease-in-out rounded-xl text-sm"
-                            onClick={onSaveCity}
-                            disabled={isCitySaved}
-                        >
-                            <Plus size={16} className="transform bold" />
-                        </button>
                     </div>
                 </>
             ) : (
