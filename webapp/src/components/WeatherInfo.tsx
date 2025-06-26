@@ -13,9 +13,7 @@ export default function WeatherInfo({ currentCity, onSaveCity, isCitySaved }: We
             {currentCity ? (
                 <>
                     <div className="weather-location-row flex justify-center">
-                        <h2 className="weather-location text-white text-xl font-semibold">
-                            {currentCity.weather.name}
-                        </h2>
+                        <h2 className="weather-location text-white text-xl font-semibold">{currentCity.formatted}</h2>
                     </div>
                     <div className="weather-condition-row flex flex-col items-center mb-2">
                         <img

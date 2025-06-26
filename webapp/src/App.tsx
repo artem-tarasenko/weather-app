@@ -44,7 +44,7 @@ export default function App() {
     );
 }
 
-// fallback UI for error boundary just in case if App crashes
+// fallback UI for error boundary just in case if App crashes, left here for collocation
 export function AppFallback() {
     return (
         <main className="weather-app min-h-screen flex flex-col items-center justify-center bg-indigo-400 px-4 py-6 w-full">
